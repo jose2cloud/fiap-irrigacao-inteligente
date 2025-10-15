@@ -10,7 +10,6 @@ Este projeto consiste em um sistema de irrigação automatizado e inteligente, d
 O sistema utiliza o microcontrolador ESP32 para monitorar continuamente o ambiente e as condições simuladas do solo, acionando uma bomba d'água (via Relé) apenas quando todas as condições ideais são atendidas.
 
 Objetivo
-
 O principal objetivo é demonstrar um ciclo de decisão completo para a irrigação, garantindo que a bomba só seja acionada se:
 
 *TOMATE*
@@ -18,7 +17,7 @@ O principal objetivo é demonstrar um ciclo de decisão completo para a irrigaç
 2.  O pH do Solo (simulado) estiver dentro da faixa ideal: Entre 6.0 e 6.8.
 3.  Os Nutrientes-chave (P e K) estiverem presentes (simulados via botões).
 
-⚙️ Componentes de Hardware
+Componentes de Hardware
 
 | Componente | Função | Especificidade |
 | **Microcontrolador** | ESP32 | Responsável pelo processamento e controle. |
@@ -28,7 +27,6 @@ O principal objetivo é demonstrar um ciclo de decisão completo para a irrigaç
 | **Botões (x3)** | Botões Tácteis | Simulam a presença dos nutrientes **N**, **P** e **K**. |
 
 Diagrama de Conexões
-
 O projeto utiliza a seguinte configuração de pinos do ESP32, conforme definido no arquivo `main.cpp`:
 
 | Componente | Sinal / Pino (Código) | Pino do ESP32 | Tipo | Notas |
@@ -45,24 +43,10 @@ O sistema opera em um ciclo contínuo (`loop`), verificando as condições a cad
 
 ### 1. Parâmetros da Cultura (Tomate)
 
-O sistema é calibrado para a cultura do **Tomate**, com os seguintes limites:
-
-| Parâmetro | Limite Ideal | Ação |
-| :--- | :--- | :--- |
+O sistema é calibrado para a cultura do Tomate, com os seguintes limites:
 | **Umidade do Solo** | `< 60.0%` | Condição de Irrigação (Umidade Baixa). |
 | **pH do Solo (Simulado)** | `6.0` a `6.8` | Condição de Irrigação (pH Ideal). |
 | **Nutrientes (P e K)** | Ambos `SIM` | Condição de Irrigação (Nutrientes Presentes). |
 
-### 2. Conversão de Sensores
-
-* **pH Simulado:** O valor analógico lido pelo LDR (faixa de 0 a 4095) é mapeado para a escala de pH (0 a 14.0).
-    ```cpp
-    float pH = map(valorLDR, 0, 4095, 0, 140) / 10.0;
-    ```
-* **Leitura dos Botões:**
-    * **N e K:** O estado é lido diretamente. O botão pressionado (GND/LOW) é lido como `true` (SIM) na lógica final.
-    * **P:** Devido à instabilidade detectada no hardware, o estado do botão P (**GPIO 32**) é **invertido (`!digitalRead`)** para garantir estabilidade e lógica consistente.
-
-### 3. Algoritmo de Decisão (O Coração do Projeto)
-
+Algoritmo de Decisão
 A bomba de irrigação é ativada se, e somente se, TODAS as três condições a seguir forem verdadeiras.
