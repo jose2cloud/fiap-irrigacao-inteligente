@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "author": "José - FIAP IA Project",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": -19.2,
+      "left": -119.96,
+      "attrs": {}
+    },
+    { "type": "wokwi-dht22", "id": "dht1", "top": 249.9, "left": -207, "attrs": {} },
+    { "type": "wokwi-photoresistor-sensor", "id": "ldr1", "top": 272, "left": 0.8, "attrs": {} },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn1",
+      "top": 342.2,
+      "left": 153.6,
+      "attrs": { "color": "green", "label": "P" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn2",
+      "top": 342.2,
+      "left": 297.6,
+      "attrs": { "color": "blue", "label": "K" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn3",
+      "top": 342.2,
+      "left": -9.6,
+      "attrs": { "color": "yellow", "label": "N" }
+    },
+    { "type": "wokwi-relay-module", "id": "relay1", "top": 163.4, "left": 172.8, "attrs": {} }
+  ],
+  "connections": [
+    
+    [ "esp:TX0", "$serialMonitor:RX", "purple", [] ],
+    [ "esp:RX0", "$serialMonitor:TX", "purple", [] ],
+
+    [ "dht1:VCC", "esp:3V3", "red", [ "v0" ] ],
+    [ "dht1:GND", "esp:GND", "black", [ "v0" ] ],
+    [ "dht1:SDA", "esp:4", "green", [ "v0" ] ],
+
+    [ "ldr1:VCC", "esp:3V3", "red", [ "h0" ] ],
+    [ "ldr1:GND", "esp:GND", "black", [ "h0" ] ],
+    [ "ldr1:AO", "esp:34", "orange", [ "h0" ] ],
+    
+    [ "btn1:2.l", "esp:12", "green", [ "h0" ] ], 
+    [ "btn1:1.l", "esp:3V3", "red", [ "h0" ] ], 
+
+    [ "btn2:2.l", "esp:14", "green", [ "h0" ] ], 
+    [ "btn2:1.l", "esp:3V3", "red", [ "h0" ] ], 
+
+    [ "btn3:2.l", "esp:13", "green", [ "h0" ] ], 
+    [ "btn3:1.l", "esp:3V3", "red", [ "h0" ] ], 
+
+    [ "relay1:VCC", "esp:3V3", "red", [ "h0" ] ],
+    [ "relay1:GND", "esp:GND", "black", [ "h0" ] ],
+    [ "relay1:IN", "esp:27", "purple", [ "h0" ] ]
+  ],
+  "serialMonitor": {
+    "display": "always"
+  },
+  "dependencies": {}
+}
